@@ -13,7 +13,7 @@
 
 \DeclareRobustCommand{\includediagram}[2][]{
     \filename@parse{#2}
-    
+
     \openin\tmpread=#2.drawio
     \closein\tmpread
 
@@ -29,15 +29,22 @@
                 draw.io.exe --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
             }
         \else
-            \typeout{Running: drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
-            \immediate\write18{%
-                drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
-            }
+            \ifmacosx
+                \typeout{Running: /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
+                \immediate\write18{%
+                    /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
+                }
+            \else
+                \typeout{Running: drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
+                \immediate\write18{%
+                    drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
+                }
+            \fi
         \fi
     }
     {
         \typeout{drawio: #2.pdf is newer than #2.drawio; skip conversion}
     }
-    
+
     \includegraphics[#1]{#2.pdf}
 }
