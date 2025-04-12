@@ -20,24 +20,24 @@
     \filemodcmp{#2.drawio}{#2.pdf}
     {
         \ifwindows
-            \typeout{Running: draw.io.exe --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
+            \typeout{Running: draw.io.exe --crop --export --format pdf --output #2.pdf  #2.drawio }
             % if run from VS Code, the command would inherit the environment variable ELECTRON_RUN_AS_NODE=1
             % which causes this bug https://github.com/microsoft/vscode-cmake-tools/issues/1545 to appear.
             % this was NOT fun to debug
             \immediate\write18{%
                 set "ELECTRON_RUN_AS_NODE=" &
-                draw.io.exe --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
+                draw.io.exe --crop --export --format pdf --output #2.pdf  #2.drawio  >> drawio.log 2>&1
             }
         \else
             \ifmacosx
-                \typeout{Running: /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
+                \typeout{Running: /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio}
                 \immediate\write18{%
-                    /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
+                    /Applications/draw.io.app/Contents/MacOS/draw.io --crop --export --format pdf --output #2.pdf  #2.drawio >> drawio.log 2>&1
                 }
             \else
-                \typeout{Running: drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox}
+                \typeout{Running: drawio --crop --export --format pdf --output #2.pdf  #2.drawio }
                 \immediate\write18{%
-                    drawio --crop --export --format pdf --output #2.pdf  #2.drawio --no-sandbox >> drawio.log 2>&1
+                    drawio --crop --export --format pdf --output #2.pdf  #2.drawio  >> drawio.log 2>&1
                 }
             \fi
         \fi
